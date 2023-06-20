@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { registerUser, loginUser, signoutUser} = require("../routes/authRoutes")
+const { registerUser, loginUser, signoutUser} = require("../controller/authController")
 
 
 // Controller to register new user
@@ -10,6 +10,7 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 // Controller to logout/sign out a user
-router.post("/logout", signoutUser)
+router.post("/logout", signoutUser);
 
 
+module.exports = router;
