@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const salt = 10
 
 // User registration controller
-const registerUser = async(req, res) => {
+const registerUser = async(req, res, next) => {
     const {firstname, username, email, password} = req.body;
 
     if (!firstname || !username || !email || !password) {
@@ -30,7 +30,8 @@ const registerUser = async(req, res) => {
                 email: email, 
                 password: bcrypt.hashSync(password, salt)
             })
-            res.status(200).json({newUser});
+            res.status(200).json({message: "User signed in successfully", success: true, newUser}); 
+            next();
         } catch (error) {
             res.status(500).json({error: error.message})
         }
@@ -53,3 +54,8 @@ module.exports = {
     loginUser,
     signoutUser
 }
+
+// The user's inputs are obtained from the req.body in the code above, and you then check the email to make sure no past registrations have been made. We'll use the values obtained from req.body to create the new user after that has occurred.
+
+
+// You don't need to worry about how the unique _id was obtained because MongoDB always assigns a new user with a unique _id.

@@ -4,7 +4,7 @@ const {updateNote,
     removeNote,
     getAllNotes,
     getSingleNote,
-    addNewNote} = require("../controller/apiController")
+    addNewNote} = require("../controller/apiControllers")
 
 
 // API Route OR Resource endpoints
