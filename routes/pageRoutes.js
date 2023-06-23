@@ -1,4 +1,5 @@
 const express = require("express");
+const { userVerification } = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -13,5 +14,6 @@ router.get("/contact", (req, res) => {
     res.send("<h1>This is a contact page</h1>")
   })
 
+router.get("/profile", userVerification)
 
 module.exports = router;

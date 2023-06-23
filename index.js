@@ -5,6 +5,7 @@ const apiRoutes = require("./routes/apiRoutes")
 const authRoutes = require("./routes/authRoutes")
 const mongoose = require("mongoose")
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const port = 6000
 
@@ -12,7 +13,8 @@ const port = 6000
 // The first one defines an event handler that is used to 
 // handle HTTP GET requests made to the application's root
 
-//middleware
+//middlewares
+app.use(cookieParser());
 // middleware is a function or piece of code that runs between when a server gets a request from a client and 
 // when it sends a response back to the client
 app.use(express.urlencoded({extended: true}));
