@@ -3,7 +3,8 @@ const app = express() // using the express function to create an express applica
 const pageRoutes = require("./routes/pageRoutes")
 const apiRoutes = require("./routes/apiRoutes")
 const authRoutes = require("./routes/authRoutes")
-const mongoose = require("mongoose")
+// const mongoose = require("mongoose")
+require("./database/connectDB");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
@@ -35,16 +36,7 @@ app.use("/api/v1/notes", apiRoutes);
 app.use("/auth", authRoutes);
 
 // Connecting to MongoDB Database
-mongoose.connect(process.env.MONGODB_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => {
-  console.log("Now connected to MongoDB!")
-})
-.catch((error) => {
-  console.log(error)
-})
+
 
 
 app.listen(port, () => {
