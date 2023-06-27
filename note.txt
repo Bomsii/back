@@ -1,0 +1,108 @@
+// Initialize your project and link it with npm
+// 1. Create a manifest file called package.json, using `npm init`
+// This file is used as a manifest, storing information about applications, modules, packages, and more.
+
+// 2. create your entry point file - `index.js` using `touch index.js`
+
+// 3. Setup a node built-in server and create a node server object.
+// const http = require('http');
+
+//create a server object:
+http.createServer(function (req, res) {
+  res.write('Hello World!'); //write a response to the client
+  res.end(); //end the response
+}).listen(8080, () => console.log("Server is running")); //the server object listens on port 8080
+
+// Run the the http server using `node index.js`
+
+// 4. Since the NodeJS http module is limited, we switch to the express framework.
+// install express using `npm install express`
+
+// Comment out the previous codes and Add the code below to your index.js file
+// const express = require('express')
+const app = express()
+const port = 3000
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
+
+
+// 5. Add different routes to your application 
+//
+app.get('/russia', (req, res) => {
+  res.send('Hello Russia')
+})
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+app.get('/ukraine', (req, res) => {
+  res.send('Hello Ukraine!')
+})
+
+// Note: Anytime You make changes to the index.js file, you need to restart
+// the application again, to effect the new changes.
+
+// 6. To stop this act of always restarting when changes are made, we install `nodemon`
+// install nodemon using `npm install nodemon -D`
+
+
+// 7. After installation, you add the dev script to the package.json file
+// "scripts": {
+    "httpServer": "node index.js",
+    "expressServer": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }, 
+
+  // You start running your server using `nodemon`. Using the new script
+  // we added to the package.json file
+  // `npm run dev`
+
+  // [nodemon] restarting due to changes...
+
+  // app.anyHTTPMethod(path, callbackFunction)
+
+  // 8. Due to the excess codes in the index.js file, we abstract other functionalities to
+  // other folders - SETTING UP THE ROUTES.
+  // create a folder called `Routes` in the root directory.
+  // inside the `Routes` folder, create a file called `pagesRoutes.js`
+
+// 10. Abstract the routing to a diffrent file OR folder.
+  // move all the pages routing to the `pagesRoutes` file and rename the `app.` to `router.`
+  // const express = require("express");
+const router = express.Router();
+
+router.get('/russia', (req, res) => {
+    res.send('Hello Russia')
+  })
+  
+  // sending a html file as a response to the client
+  router.get('/', (req, res) => {
+    res.sendFile(__dirname + "/index.html")
+  })
+  
+  router.get('/ukraine', (req, res) => {
+    res.send(`
+          <body>
+              <h1>Hello, dear user</h1>
+              <p>Welcome to our webpage</p>
+          </body>
+    `)
+  })
+  router.get('/home', (req, res) => {
+    res.json("HOME PAGE")
+  })
+
+module.exports = router;
+
+
+// After doing the above, add the express middleware `app.use` to your index.js file
+const pagesRoutes = require("./Routes/pagesRoutes"); // importing the `pagesRoutes` to the `index.js file`
+
+// // app.use(path, requestHandlers)
+app.use("/", pagesRoutes);  //adding the express middleware
