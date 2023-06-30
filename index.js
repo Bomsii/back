@@ -2,6 +2,7 @@ const express = require('express') // importing the express module
 const app = express() // using the express function to create an express application stored in a variable called "app"
 const pageRoutes = require("./routes/pageRoutes")
 const apiRoutes = require("./routes/apiRoutes")
+const apiBlogRoutes = require("./routes/apiBlogRoutes.js")
 const authRoutes = require("./routes/authRoutes")
 // const mongoose = require("mongoose")
 require("./database/connectDB");
@@ -33,6 +34,7 @@ app.use(
 // Is a function that gets executed between when a request is made, and when a response is returned.
 app.use("/", pageRoutes);
 app.use("/api/v1/notes", apiRoutes);
+app.use("/api/blogs", apiBlogRoutes);
 app.use("/auth", authRoutes);
 
 // Connecting to MongoDB Database

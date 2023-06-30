@@ -106,3 +106,76 @@ const pagesRoutes = require("./Routes/pagesRoutes"); // importing the `pagesRout
 
 // // app.use(path, requestHandlers)
 app.use("/", pagesRoutes);  //adding the express middleware
+
+
+// 11. CREATING API ROUTES
+// What is an API (Application Programming Interface)? This is a contract that defines OR specifies how 
+// two devices can communicate with each other using requests and responses.
+
+// APIs are used in web applications to connect User-Interface i.e the FRONTENDS with critical
+// backend functionality and data.
+
+// 11-(a) create a SCHEMA and a MODEL using mongoose
+// A Mongoose model is a wrapper on the Mongoose schema. A Mongoose schema defines the structure of the document, default values, validators, etc., whereas a Mongoose model provides an interface to the database for creating, querying, updating, deleting records, etc.
+
+// const mongoose = require("mongoose");
+
+const blogSchema = mongoose.Schema({
+    title: {type: String, required: [true, "title is required"], unique},
+    body: {type: String, required: [true, "body is required"]},
+    date: {type: Date, default: Date.now()},
+    image_url: {type: String},
+    author: {type: String, required: [true, "author is required"]},
+    hidden: {type: Boolean}
+}, {
+  timestamps: true,
+
+});
+
+module.exports = mongoose.model("Blog", blogSchema);
+
+
+// 11- (b) - Set up your MongoDB database and connect it to your node application.
+// create an ".env" file in our root directory. To store our environment variables.
+
+// install the dotenv package
+// npm install dotenv
+// And import dotenv package into your application, by pasting the code below
+// into your server file. 
+//    require("dotenv").config();
+
+// Add your MongoDB connection URL/Link to the .env file.
+// 12. Create your MongoDB connection to your server.
+// 12-(a) create a folder in the root directory called "Database" and create a file inside the folder
+// called "connectDB.js"
+// paste the following code below in the "connectDB.js" file
+const mongoose = require("mongoose");
+
+mongoose.set("strictQuery", false);
+
+// connect to mongoDB Database
+mongoose.connect(process.env.MONGOBD_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Now connected to MongoDB!")
+  })
+  .catch((error) => {
+    console.log(error)
+})
+
+
+// NOW CONNECTED TO MongoDB
+      Example app listening on port 3000
+      Now connected to MongoDB!
+
+  
+// 13. CREATE THE API ROUTES
+    // 13-(a) creating a file called "apiBlogRoutes.js" in the Routes folder.
+    // 13-(b) we create the API routing path in the server file, using the "app.use" middleware
+    // import the "api route" file into the top of the server file, using the code below:
+    const apiBlogRoutes = require("./Routes/apiBlogRoutes");
+
+    // Make use of the apiRoute variable, in the api routing- "app.use" middleware
+    app.use("/api/blogs", apiBlogRoutes);
